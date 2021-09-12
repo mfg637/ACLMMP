@@ -10,39 +10,36 @@ for key in content_metadata:
     print("    {}:".format(key), content_metadata[key])
 print()
 
-if 'video' in streams_metadata:
+if streams_metadata[0] is not None:
     print("VIDEO STREAMS METADATA:")
-    for key in streams_metadata['video']:
-        if key != "levels":
-            print("    {}:".format(key), streams_metadata['video'][key])
+    for key in streams_metadata[0].tags:
+        print("    {}:".format(key), streams_metadata[0].tags[key])
     print()
 
-if 'audio' in streams_metadata:
+if streams_metadata[1] is not None:
     print("AUDIO STREAMS METADATA:")
     i = 0
-    for audio_stream in streams_metadata['audio']:
+    for audio_stream in streams_metadata[1]:
         print("    AUDIO STREAM #{}".format(i))
         i += 1
-        for key in audio_stream:
-            if key == "channels":
-                available_channels = ""
-                for channel in audio_stream["channels"]:
-                    if len(available_channels):
-                        available_channels += ", {}".format(channel)
-                    else:
-                        available_channels = channel
-                print("        AVAILABLE CHANNELS: {}".format(available_channels))
+        available_channels = ""
+        for channel in audio_stream.channels:
+            if len(available_channels):
+                available_channels += ", {}".format(channel)
             else:
-                print("        {}:".format(key), audio_stream[key])
+                available_channels = str(channel)
+        print("        AVAILABLE CHANNELS: {}".format(available_channels))
+        for key in audio_stream.tags:
+            print("        {}:".format(key), audio_stream.tags[key])
     print()
 
-if 'subtitles' in streams_metadata:
+if streams_metadata[2] is not None:
     print("SUBTITLE STREAMS METADATA:")
     i = 0
-    for subtitle_stream in streams_metadata['subtitles']:
+    for subtitle_stream in streams_metadata[2]:
         print("    SUBTITLE STREAM #{}".format(i))
         i += 1
-        for key in subtitle_stream:
+        for key in subtitle_stream.tags:
             print("        {}:".format(key), subtitle_stream[key])
     print()
 
