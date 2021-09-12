@@ -28,6 +28,7 @@ But now, compatibility-level specks looks like that:
 | 2     | HEVC   | 10        | yuv420p10le  | 30            | 4k             | opus   |
 | 2     | HEVC   | 8         | yuv420p      | 60            | 1080p          | opus   |
 | 3     | HEVC   | 8         | yuv420       | 30            | 1080p          | opus   |
+| 3     | VP9    | 8         | yuv420       | 30            | 1080p          | opus   |
 | 4     | AVC    | 8         | yuv420       | 30            | 1080p          | aac    |
 
 ## Muxing variants
