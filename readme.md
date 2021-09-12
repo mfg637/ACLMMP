@@ -56,10 +56,11 @@ and provides links marked by compatibility-level.
                 "title": "VIDEO STREAM TITLE (non-required),
                 "some metadata": some_value,
                 "levels": {
-                    0: "master quality video.mkv",
-                    1: "high quality file.mkv",
-                    2: "medium quality file.mkv",
-                    3: "low quality file.mkv"
+                     /* "LEVEL_ID(integer)": "FILE_URL(string) */"
+                    "0": "master quality video.mkv",
+                    "1": "high quality file.mkv",
+                    "2": "medium quality file.mkv",
+                    "3": "low quality file.mkv"
                 }
             },
             "audio":[
@@ -67,12 +68,14 @@ and provides links marked by compatibility-level.
                     "title": "original soundtrack",
                     "language": "eng",
                     "channels": {
-                        2: { /* tracks levels by stereo downmix */
-                            3: "01 128kbps.opus",
-                            4: "01 128kbps aac.m4a"
+                        /* "CHANNELS_COUNT(integer)": {LEVELS_LIST_OBJECT}
+                        "2": {
+                           /* "LEVEL_ID(integer)": "FILE_URL(string) */"
+                           "3": "01 128kbps.opus",
+                           "4": "01 128kbps aac.m4a"
                         },
-                        6: {
-                            3: "01 384kbps.opus"
+                        "6": {
+                            "3": "01 384kbps.opus"
                         }
                     }
                 },
@@ -80,12 +83,12 @@ and provides links marked by compatibility-level.
                     "title": "some language DUB",
                     "language": "und",
                     "channels": {
-                        2: { /* tracks levels by stereo downmix */
-                            3: "02 128kbps.opus",
-                            4: "02 128kbps aac.m4a"
+                        "2": {
+                            "3": "02 128kbps.opus",
+                            "4": "02 128kbps aac.m4a"
                         },
-                        6: {
-                            4: "02 384kbps.ac3"
+                        "6": {
+                            "4": "02 384kbps.ac3"
                         }
                     }
                 }
