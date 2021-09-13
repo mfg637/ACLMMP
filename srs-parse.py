@@ -40,7 +40,7 @@ if streams_metadata[2] is not None:
         print("    SUBTITLE STREAM #{}".format(i))
         i += 1
         for key in subtitle_stream.tags:
-            print("        {}:".format(key), subtitle_stream[key])
+            print("        {}:".format(key), subtitle_stream.tags[key])
     print()
 
 print("MINIMAL CONTENT COMPATIBILITY LEVEL:", minimal_content_compatibility_level)
