@@ -10,7 +10,9 @@ describes by "stream references sheet" file.
 0. PC only and software only decoding compatible;
 1. PC only with limited hw compatibility;
 2. Smart-TV and TV Box device compatibility;
+2w: WEBP container ready, Smart-TV and internet browsers compatibility;
 3. Android smartphones compatibility;
+3w: WEBP container ready, Android smartphones and internet browsers compatibility;
 4. Wide compatibility.
 
 Compatibility level specifications may be changed by time.
@@ -28,7 +30,7 @@ But now, compatibility-level specks looks like that:
 | 2     | HEVC   | 10        | yuv420p10le  | 30            | 4k             | opus   |
 | 2     | HEVC   | 8         | yuv420p      | 60            | 1080p          | opus   |
 | 3     | HEVC   | 8         | yuv420       | 30            | 1080p          | opus   |
-| 3     | VP9    | 8         | yuv420       | 30            | 1080p          | opus   |
+| 3, 3w | VP9    | 8         | yuv420       | 30            | 1080p          | opus   |
 | 4     | AVC    | 8         | yuv420       | 30            | 1080p          | aac    |
 
 ## Muxing variants
@@ -57,11 +59,12 @@ and provides links marked by compatibility-level.
                 "title": "VIDEO STREAM TITLE (non-required),
                 "some metadata": some_value,
                 "levels": {
-                     /* "LEVEL_ID(integer)": "FILE_URL(string) */"
+                     /* "LEVEL_ID(integer)[w]": "FILE_URL(string) */"
                     "0": "master quality video.mkv",
                     "1": "high quality file.mkv",
                     "2": "medium quality file.mkv",
                     "3": "low quality file.mkv"
+                    "3w": "low quality vp9 video.mkv"
                 }
             },
             "audio":[
@@ -71,8 +74,8 @@ and provides links marked by compatibility-level.
                     "channels": {
                         /* "CHANNELS_COUNT(integer)": {LEVELS_LIST_OBJECT}
                         "2": {
-                           /* "LEVEL_ID(integer)": "FILE_URL(string) */"
-                           "3": "01 128kbps.opus",
+                           /* "LEVEL_ID(integer)[w]": "FILE_URL(string) */"
+                           "3w": "01 128kbps.opus",
                            "4": "01 128kbps aac.m4a"
                         },
                         "6": {
@@ -85,7 +88,7 @@ and provides links marked by compatibility-level.
                     "language": "und",
                     "channels": {
                         "2": {
-                            "3": "02 128kbps.opus",
+                            "3w": "02 128kbps.opus",
                             "4": "02 128kbps aac.m4a"
                         },
                         "6": {
