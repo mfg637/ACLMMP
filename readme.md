@@ -10,9 +10,7 @@ describes by "stream references sheet" file.
 0. PC only and software only decoding compatible;
 1. PC only with limited hw compatibility;
 2. Smart-TV and TV Box device compatibility;
-2w: WEBP container ready, Smart-TV and internet browsers compatibility;
 3. Android smartphones compatibility;
-3w: WEBP container ready, Android smartphones and internet browsers compatibility;
 4. Wide compatibility.
 
 Compatibility level specifications may be changed by time.
@@ -32,6 +30,15 @@ But now, compatibility-level specks looks like that:
 | 3     | HEVC   | 8         | yuv420       | 30            | 1080p          | opus   |
 | 3, 3w | VP9    | 8         | yuv420       | 30            | 1080p          | opus   |
 | 4     | AVC    | 8         | yuv420       | 30            | 1080p          | aac    |
+
+### Levels and *w-levels
+
+Level suffix w indicates that video or audio track
+compatible to muxing to WEBM container. It helps web server
+to select right video or audio track for muxing
+(on-demand muxing variant). If WEBM compatibility is not required,
+first track with same level has higher priority,
+even if it doesn't have *w suffix.
 
 ## Muxing variants
 
