@@ -56,7 +56,7 @@ and provides links marked by compatibility-level.
 
 ### Specification
 
-    {
+    {"ftype":"CLSRS",
         "content": {
             "title": "CONTENT TITLE",
             "some metadata": some_value
