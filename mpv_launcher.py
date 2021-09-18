@@ -4,7 +4,46 @@
 import argparse
 import subprocess
 
-import srs_parser
+from . import srs_parser
+
+def launch_mpv(srs_file, level, limit_audio_channels=None):
+    content_metadata, streams_metadata, minimal_content_compatibility_level = srs_parser.parseJSON(srs_file)
+    srs_file.close()
+
+    CONTENT_TITLE = content_metadata["title"]
+    print("TITLE:", CONTENT_TITLE)
+    if level > minimal_content_compatibility_level:
+        print("Content compatibility error!")
+        print("Minimal content compatibility level is {}.".format(minimal_content_compatibility_level))
+        exit(1)
+
+    commandline = ["mpv", "--title={}".format(CONTENT_TITLE)]
+
+    if streams_metadata[0] is not None:
+        commandline += [streams_metadata[0].get_compatible_files(level)[0]]
+
+    if streams_metadata[1] is not None:
+        line = "--audio-files="
+        for stream in streams_metadata[1]:
+            if limit_audio_channels is not None:
+                file = stream.get_file(limit_audio_channels, level)
+                if file is not None:
+                    line += "{}:".format(file)
+                    continue
+            files = stream.get_compatible_files(level)
+            for file in files:
+                line += "{}:".format(file)
+        commandline += [line]
+
+    if streams_metadata[2] is not None:
+        line = "--sub-files="
+        for stream in streams_metadata[2]:
+            line += "{}:".format(stream.get_compatible_files(level)[0])
+        commandline.append(line)
+
+    print("COMMANDLINE", commandline)
+
+    subprocess.run(commandline)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -14,46 +53,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print("LEVEL", args.level)
 
-    content_metadata, streams_metadata, minimal_content_compatibility_level = srs_parser.parseJSON(args.SRS_file)
-    args.SRS_file.close()
+    launch_mpv(args.SRS_file, args.level, args.limit_audio_channels)
 
-    CONTENT_TITLE = content_metadata["title"]
-    print("TITLE:", CONTENT_TITLE)
-    if args.level > minimal_content_compatibility_level:
-        print("Content compatibility error!")
-        print("Minimal content compatibility level is {}.".format(minimal_content_compatibility_level))
-        exit(1)
-
-    commandline = ["mpv", "--title={}".format(CONTENT_TITLE)]
-
-    if streams_metadata[0] is not None:
-        commandline += [streams_metadata[0].get_compatible_files(args.level)[0]]
-
-    if streams_metadata[1] is not None:
-        line = "--audio-files="
-        for stream in streams_metadata[1]:
-            def cl_add_file():
-                global line
-                line += "{}:".format(file)
-            if args.limit_audio_channels is not None:
-                file = stream.get_file(args.limit_audio_channels, args.level)
-                if file is not None:
-                    cl_add_file()
-                    continue
-            files = stream.get_compatible_files(args.level)
-            for file in files:
-                cl_add_file()
-        commandline += [line]
-
-    if streams_metadata[2] is not None:
-        line = "--sub-files="
-        for stream in streams_metadata[2]:
-            line += "{}:".format(stream.get_compatible_files(args.level)[0])
-        commandline.append(line)
-
-    print(commandline)
-
-    subprocess.run(commandline)
 
 
 
