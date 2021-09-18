@@ -4,7 +4,10 @@
 import argparse
 import subprocess
 
-from . import srs_parser
+if __name__ == "__main__":
+    import srs_parser
+else:
+    from . import srs_parser
 
 def launch_mpv(srs_file, level, limit_audio_channels=None):
     content_metadata, streams_metadata, minimal_content_compatibility_level = srs_parser.parseJSON(srs_file)
