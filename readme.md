@@ -59,6 +59,8 @@ and provides links marked by compatibility-level.
     {"ftype":"CLSRS",
         "content": {
             "title": "CONTENT TITLE",
+            "poster-image": "movie poster",
+            "cover-image": "album cover",
             "some metadata": some_value
         },
         "streams":{
