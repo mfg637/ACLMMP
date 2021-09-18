@@ -1,1 +1,1 @@
-import srs_parser
+from . import srs_parser
