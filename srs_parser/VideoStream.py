@@ -2,11 +2,10 @@ from .Stream import Stream
 
 
 class VideoStream(Stream):
-    def __init__(self, json_data):
+    def __init__(self, json_data, webm_compatible=False):
         self.levels = dict()
         for raw_level in json_data['levels']:
-            level = int(raw_level)
-            self.levels[level] = json_data['levels'][raw_level]
+            self.level_parse(raw_level, webm_compatible, input_value=json_data['levels'], output=self.levels)
         self.tags = dict()
         for tag in json_data:
             if tag != 'levels':

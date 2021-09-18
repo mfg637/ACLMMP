@@ -9,10 +9,14 @@ parser.add_argument("SRS_file", help="Stream References Sheet file in JSON forma
 parser.add_argument("--level", help="Target content compatibility level", required=True, type=int)
 parser.add_argument("-o", help="Output file name", type=pathlib.Path)
 parser.add_argument("--limit_audio_channels", type=int)
+parser.add_argument("--webm", help="enable webm compatibility and muxing", action='store_true')
 args = parser.parse_args()
 print("LEVEL", args.level)
 
-content_metadata, streams_metadata, minimal_content_compatibility_level = srs_parser.parseJSON(args.SRS_file)
+content_metadata, streams_metadata, minimal_content_compatibility_level = srs_parser.parseJSON(
+    args.SRS_file,
+    webp_compatible=args.webm
+)
 args.SRS_file.close()
 
 CONTENT_TITLE = content_metadata["title"]
@@ -61,7 +65,7 @@ if streams_metadata[1] is not None:
             cl_add_file()
             commandline += [file]
 
-if streams_metadata[2] is not None:
+if streams_metadata[2] is not None and not args.webm:
     for stream in streams_metadata[2]:
         stitle = stream.get_stream_title()
         slang = stream.get_track_language()
@@ -70,6 +74,9 @@ if streams_metadata[2] is not None:
         if slang is not None:
             commandline += ['--language', "0:{}".format(slang)]
         commandline += [stream.get_compatible_files(args.level)[0]]
+
+if args.webm:
+    commandline += ['--webm']
 
 subprocess.run(commandline)
 

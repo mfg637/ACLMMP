@@ -2,14 +2,17 @@ from .Stream import Stream
 
 
 class AudioStream(Stream):
-    def __init__(self, json_data):
+    def __init__(self, json_data, webm_compatible=False):
         self.channels = dict()
         for raw_channel in json_data['channels']:
             channel = int(raw_channel)
             levels = dict()
             for raw_level in json_data['channels'][raw_channel]:
-                level = int(raw_level)
-                levels[level] = json_data['channels'][raw_channel][raw_level]
+                self.level_parse(
+                    raw_level,
+                    webm_compatible,
+                    input_value=json_data['channels'][raw_channel],
+                    output=levels)
             self.channels[channel] = levels
         self.tags = dict()
         for tag in json_data:

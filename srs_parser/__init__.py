@@ -5,15 +5,15 @@ from .AudioStream import AudioStream
 from .SubtitleStream import SubtitleStream
 
 
-def parseJSON(fp):
+def parseJSON(fp, webp_compatible=False):
     raw_data = json.load(fp)
     content_metadata = raw_data['content']
     video = None
     if 'video' in raw_data['streams']:
-        video = VideoStream(raw_data['streams']['video'])
+        video = VideoStream(raw_data['streams']['video'], webp_compatible)
     audio_streams = None
     if 'audio' in raw_data['streams']:
-        audio_streams = [AudioStream(stream) for stream in raw_data['streams']['audio']]
+        audio_streams = [AudioStream(stream, webp_compatible) for stream in raw_data['streams']['audio']]
     subtitle_streams = None
     if 'subtitles' in raw_data['streams']:
         subtitle_streams = [SubtitleStream(stream) for stream in raw_data['streams']['subtitles']]
