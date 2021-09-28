@@ -48,4 +48,10 @@ if __name__ == "__main__":
                 print("        {}:".format(key), subtitle_stream.tags[key])
         print()
 
+    if streams_metadata[3] is not None:
+        print("IMAGE FILES METADATA:")
+        for key in streams_metadata[3].tags:
+            print("    {}:".format(key), streams_metadata[3].tags[key])
+        print()
+
     print("MINIMAL CONTENT COMPATIBILITY LEVEL:", minimal_content_compatibility_level)

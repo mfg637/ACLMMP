@@ -3,6 +3,7 @@ import json
 from .VideoStream import VideoStream
 from .AudioStream import AudioStream
 from .SubtitleStream import SubtitleStream
+from .ImageFile import ImageFile
 
 
 def parseJSON(fp, webp_compatible=False):
@@ -17,12 +18,20 @@ def parseJSON(fp, webp_compatible=False):
     subtitle_streams = None
     if 'subtitles' in raw_data['streams']:
         subtitle_streams = [SubtitleStream(stream) for stream in raw_data['streams']['subtitles']]
-    streams_metadata = (video, audio_streams, subtitle_streams)
+    image = None
+    if 'image' in raw_data['streams']:
+        image = ImageFile(raw_data['streams']['image'])
+    streams_metadata = (video, audio_streams, subtitle_streams, image)
 
     video_compatibility_level = -1
     if video is not None:
         for level in video.levels:
             video_compatibility_level = max(level, video_compatibility_level)
+
+    image_compatibility_level = -1
+    if image is not None:
+        for level in image.levels:
+            image_compatibility_level = max(level, image_compatibility_level)
 
     audio_compatibility_level = -1
     if audio_streams is not None:
@@ -37,10 +46,12 @@ def parseJSON(fp, webp_compatible=False):
             audio_compatibility_level = min(stream_level, audio_compatibility_level)
 
     minimal_content_compatibility_level = -1
-    if video_compatibility_level == -1:
+    if video_compatibility_level == -1 and audio_compatibility_level != -1:
         minimal_content_compatibility_level = audio_compatibility_level
-    elif audio_compatibility_level == -1:
+    elif audio_compatibility_level == -1 and video_compatibility_level != -1:
         minimal_content_compatibility_level = video_compatibility_level
+    elif video_compatibility_level == -1 and audio_compatibility_level == -1 and image is not None:
+        minimal_content_compatibility_level = image_compatibility_level
     else:
         minimal_content_compatibility_level = min(video_compatibility_level, audio_compatibility_level)
     return content_metadata, streams_metadata, minimal_content_compatibility_level
