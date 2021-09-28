@@ -40,6 +40,18 @@ to select right video or audio track for muxing
 first track with same level has higher priority,
 even if it doesn't have *w suffix.
 
+### compatibility levels for images
+
+| level | format   | bit-depth | pixel format | max resolution |
+| ----- | -------- | --------- | ------------ | -------------- |
+| 0     | AVIF-AV1 | 12        | yuv422p12le  | -              |
+| 0     | AVIF-AV1 | 12        | yuv444p12le  | -              |
+| 1     | AVIF-AV1 | 8         | yuv444p      | ≈100 MP        |
+| 2     | HEIC     | 10        | yuv420p10le  | 4096x4096      |
+| 3     | WEBP     | 8         | yuv420       | 2048x2048      |
+| 4     | JPG      | 8         | yuv420       | 1024x1024      |
+| 4     | PNG      | 8         | RGB          | 1024x1024      |
+
 ## Muxing variants
 
 1. **Online muxing** — client's player muxes streams
@@ -59,8 +71,24 @@ and provides links marked by compatibility-level.
     {"ftype":"CLSRS",
         "content": {
             "title": "CONTENT TITLE",
-            "poster-image": "movie poster",
-            "cover-image": "album cover",
+            "media-type": MEDIA_TYPE,
+            /* MEDIA_TYPE(integer) = 
+                  IMAGE == 0
+                  AUDIO == 1
+                  VIDEO == 2
+            */
+            "poster-image": {// IMAGE_OBJECT
+               "levels": {
+                  "4": "movie poster.jpg",
+               },
+               "some metadata": some_value
+            }
+            "cover-image": {// IMAGE_OBJECT
+               "levels": {
+                  "4": "album cover.jpg",
+               },
+               "some metadata": some_value
+            },
             "some metadata": some_value
         },
         "streams":{
@@ -117,6 +145,14 @@ and provides links marked by compatibility-level.
                     "language": "eng",
                     "file": "orig.ass"
                 }
-            ]
+            ],
+            "image":{// IMAGE_OBJECT
+               "levels": {
+                  "1": "image.avif"
+                  "3": "preview.webp",
+                  "4": "thumbnail.jpg",
+               },
+               "some metadata": some_value
+            }
         }
     }
