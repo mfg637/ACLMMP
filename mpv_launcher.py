@@ -13,6 +13,13 @@ def launch_mpv(srs_file, level, limit_audio_channels=None):
     content_metadata, streams_metadata, minimal_content_compatibility_level = srs_parser.parseJSON(srs_file)
     srs_file.close()
 
+    if content_metadata['media-type'] != srs_parser.MEDIA_TYPE.VIDEO.value:
+        raise NotImplementedError(
+            "SRS media type is {}, not video!".format(
+                srs_parser.MEDIA_TYPE(content_metadata['media-type']).name
+            )
+        )
+
     CONTENT_TITLE = content_metadata["title"]
     print("TITLE:", CONTENT_TITLE)
     if level > minimal_content_compatibility_level:
