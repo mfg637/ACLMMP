@@ -1,9 +1,16 @@
 import json
+import enum
 
 from .VideoStream import VideoStream
 from .AudioStream import AudioStream
 from .SubtitleStream import SubtitleStream
 from .ImageFile import ImageFile
+
+
+class MEDIA_TYPE(enum.Enum):
+    IMAGE = 0
+    AUDIO = 1
+    VIDEO = 2
 
 
 def parseJSON(fp, webp_compatible=False):
