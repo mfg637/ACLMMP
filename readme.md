@@ -76,6 +76,7 @@ and provides links marked by compatibility-level.
                   IMAGE == 0
                   AUDIO == 1
                   VIDEO == 2
+                  VIDEOLOOP == 3
             */
             "poster-image": {// IMAGE_OBJECT
                "levels": {
