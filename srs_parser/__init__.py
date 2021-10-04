@@ -11,6 +11,7 @@ class MEDIA_TYPE(enum.Enum):
     IMAGE = 0
     AUDIO = 1
     VIDEO = 2
+    VIDEOLOOP = 3
 
 
 def parseJSON(fp, webp_compatible=False):
