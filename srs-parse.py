@@ -12,7 +12,14 @@ if __name__ == "__main__":
 
     print("CONTENT METADATA:")
     for key in content_metadata:
-        print("    {}:".format(key), content_metadata[key])
+        if key == "media-type":
+            print("    MEDIA TYPE:", srs_parser.MEDIA_TYPE(content_metadata[key]).name)
+        elif key == "poster-image":
+            print("    HAS POSTER IMAGE")
+        elif key == "cover-image":
+            print("    HAS COVER IMAGE")
+        else:
+            print("    {}:".format(key), content_metadata[key])
     print()
 
     if streams_metadata[0] is not None:
