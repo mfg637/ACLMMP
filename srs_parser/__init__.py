@@ -81,18 +81,17 @@ def get_files_list(srs_path: pathlib.Path, content_metadata, streams_metadata):
         get_files_from_levels(content_metadata["convert-image"]['levels'])
 
     if streams_metadata[0] is not None:
-        get_files_from_levels(streams_metadata[0].levels)
+        list_files.extend([dir.joinpath(file) for file in streams_metadata[0].files])
 
     if streams_metadata[1] is not None:
         for audio in streams_metadata[1]:
-            for channel in audio.channels:
-                get_files_from_levels(audio.channels[channel])
+            list_files.extend([dir.joinpath(file) for file in audio.files])
 
     if streams_metadata[2] is not None:
         for subtitle in streams_metadata[2]:
             list_files.append(dir.joinpath(subtitle.file))
 
     if streams_metadata[3] is not None:
-        get_files_from_levels(streams_metadata[3].levels)
+        list_files.extend([dir.joinpath(file) for file in streams_metadata[3].files])
 
     return list_files

@@ -3,6 +3,7 @@ from .Stream import Stream
 
 class VideoStream(Stream):
     def __init__(self, json_data, webm_compatible=False):
+        super().__init__()
         self.levels = dict()
         for raw_level in json_data['levels']:
             self.level_parse(raw_level, webm_compatible, input_value=json_data['levels'], output=self.levels)

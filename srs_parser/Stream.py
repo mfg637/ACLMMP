@@ -2,6 +2,9 @@ import abc
 
 
 class Stream(abc.ABC):
+    def __init__(self):
+        self.files = list()
+
     @abc.abstractmethod
     def get_compatible_files(self, target_level: int) -> tuple:
         pass
@@ -42,3 +45,4 @@ class Stream(abc.ABC):
             level = self.level_detect_default(raw_level)
         if level is not None and level not in output:
             output[level] = input_value[raw_level]
+        self.files.append(input_value[raw_level])

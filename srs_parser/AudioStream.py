@@ -3,6 +3,7 @@ from .Stream import Stream
 
 class AudioStream(Stream):
     def __init__(self, json_data, webm_compatible=False):
+        super().__init__()
         self.channels = dict()
         for raw_channel in json_data['channels']:
             channel = int(raw_channel)
