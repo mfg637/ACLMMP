@@ -28,7 +28,7 @@ But now, compatibility-level specks looks like that:
 | 2     | HEVC   | 10        | yuv420p10le  | 30            | 4k             | opus   |
 | 2     | HEVC   | 8         | yuv420p      | 60            | 1080p          | opus   |
 | 3     | HEVC   | 8         | yuv420       | 30            | 1080p          | opus   |
-| 3, 3w | VP9    | 8         | yuv420       | 30            | 1080p          | opus   |
+| 3, 3w | VP9    | 8         | yuv420       | 30            | 720p          | opus   |
 | 4     | AVC    | 8         | yuv420       | 30            | 1080p          | aac    |
 
 ### Levels and *w-levels
@@ -39,6 +39,22 @@ to select right video or audio track for muxing
 (on-demand muxing variant). If WEBM compatibility is not required,
 first track with same level has higher priority,
 even if it doesn't have *w suffix.
+
+### Forced level
+
+Lover level (with bigger index) can be forced to muxing or playback
+by "force-level" stream-metadata value.
+
+Example:
+
+      "video": {
+         "title": "VIDEO STREAM TITLE,
+         "force-level": 4,
+         "levels": {
+            "3w": "low quality vp9 transcode.webm", // for webm's
+            "4": "original h264 video.mkv" // for mkv's
+         }
+      }
 
 ### compatibility levels for images
 
