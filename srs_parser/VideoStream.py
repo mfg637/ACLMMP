@@ -12,6 +12,9 @@ class VideoStream(Stream):
                 self.tags[tag] = json_data[tag]
 
     def get_compatible_files(self, target_level: int) -> tuple:
+        if "force-level" in self.tags and self.tags["force-level"] >= target_level:
+            if self.tags["force-level"] in self.levels:
+                return self.levels[self.tags["force-level"]],
         for current_level in range(target_level, 5):
             if current_level in self.levels:
                 return self.levels[current_level],
