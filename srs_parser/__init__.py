@@ -1,5 +1,6 @@
 import json
 import enum
+import pathlib
 
 from .VideoStream import VideoStream
 from .AudioStream import AudioStream
@@ -63,3 +64,35 @@ def parseJSON(fp, webp_compatible=False):
     else:
         minimal_content_compatibility_level = min(video_compatibility_level, audio_compatibility_level)
     return content_metadata, streams_metadata, minimal_content_compatibility_level
+
+
+def get_files_list(srs_path: pathlib.Path, content_metadata, streams_metadata):
+    list_files = []
+    dir = srs_path.parent
+
+    def get_files_from_levels(levels):
+        for level in levels:
+            list_files.append(dir.joinpath(levels[level]))
+
+    if "poster-image" in content_metadata:
+        get_files_from_levels(content_metadata["poster-image"]['levels'])
+
+    if "convert-image" in content_metadata:
+        get_files_from_levels(content_metadata["convert-image"]['levels'])
+
+    if streams_metadata[0] is not None:
+        get_files_from_levels(streams_metadata[0].levels)
+
+    if streams_metadata[1] is not None:
+        for audio in streams_metadata[1]:
+            for channel in audio.channels:
+                get_files_from_levels(audio.channels[channel])
+
+    if streams_metadata[2] is not None:
+        for subtitle in streams_metadata[2]:
+            list_files.append(dir.joinpath(subtitle.file))
+
+    if streams_metadata[3] is not None:
+        get_files_from_levels(streams_metadata[3].levels)
+
+    return list_files

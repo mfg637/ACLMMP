@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+import pathlib
 import sys
 
 import srs_parser
@@ -62,3 +62,8 @@ if __name__ == "__main__":
         print()
 
     print("MINIMAL CONTENT COMPATIBILITY LEVEL:", minimal_content_compatibility_level)
+    print()
+    print("LIST FILES:")
+    list_files = srs_parser.get_files_list(pathlib.Path(sys.argv[1]), content_metadata, streams_metadata)
+    for file in list_files:
+        print("    {}".format(file))
